@@ -33,17 +33,17 @@ impl PositionAndVelocity {
         }
     }
 
-    fn normal_offset(&self, t: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
-        let current_s = self.s(t);
+    fn normal_offset(&self, t: f32, theta: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
+        let current_s = self.s(theta);
         a(t) * (current_s / ta).sin()
     }
 
-    pub fn x_offset(&self, t: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
+    pub fn x_offset(&self, t: f32, theta: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
         let normal = self.n(t);
-        (self.x)(t) + self.normal_offset(t, a, ta) * normal[0]
+        (self.x)(t) + self.normal_offset(t, theta, a, ta) * normal[0]
     }
-    pub fn y_offset(&self, t: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
+    pub fn y_offset(&self, t: f32, theta: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
         let normal = self.n(t);
-        (self.y)(t) + self.normal_offset(t, a, ta) * normal[1]
+        (self.y)(t) + self.normal_offset(t, theta, a, ta) * normal[1]
     }
 }
