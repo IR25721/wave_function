@@ -39,11 +39,11 @@ impl PositionAndVelocity {
     }
 
     pub fn x_offset(&self, t: f32, theta: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
-        let normal = self.n(theta);
+        let normal = self.n(t);
         (self.x)(t) + self.normal_offset(t, theta, a, ta) * normal[0]
     }
     pub fn y_offset(&self, t: f32, theta: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
-        let normal = self.n(theta);
+        let normal = self.n(t);
         (self.y)(t) + self.normal_offset(t, theta, a, ta) * normal[1]
     }
 }
