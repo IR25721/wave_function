@@ -10,7 +10,6 @@ pub struct PositionAndVelocity {
 
 impl PositionAndVelocity {
     pub fn new(
-        &self,
         x: fn(f32) -> f32,
         y: fn(f32) -> f32,
         dx: fn(f32) -> f32,
