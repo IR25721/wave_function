@@ -17,15 +17,17 @@ impl PositionAndVelocity {
     ) -> Self {
         Self { x, y, dx, dy }
     }
+    
     pub fn s(&self, t: f32) -> f32 {
-        let func = |theta: f32| ((self.dx)(theta).powi(2) + (self.dy)(theta).powi(2)).powf(0.5);
+        let func = |theta: f32| ((self.dx)(theta).powi(2) + (self.dy)(theta).powi(2)).sqrt();
         let lower_limit = 0.;
         let upper_limit = t;
         let n = 50_usize;
         legendre_rule(func, lower_limit, upper_limit, n) as f32
     }
+    
     fn n(&self, t: f32) -> Vec<f32> {
-        let ds = ((self.dx)(t).powi(2) + (self.dy)(t).powi(2)).powf(0.5);
+        let ds = ((self.dx)(t).powi(2) + (self.dy)(t).powi(2)).sqrt();
         if ds < 1e-6 {
             vec![1., 0.]
         } else {
@@ -33,17 +35,19 @@ impl PositionAndVelocity {
         }
     }
 
-    fn normal_offset(&self, t: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
+    fn normal_offset(&self, t: f32, a: &dyn Fn(f32) -> f32, ta: f32) -> f32 {
         let current_s = self.s(t);
         a(t) * (current_s / ta).sin()
     }
 
-    pub fn x_offset(&self, t: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
+    pub fn x_offset(&self, t: f32, a: &dyn Fn(f32) -> f32, ta: f32) -> f32 {
         let normal = self.n(t);
         (self.x)(t) + self.normal_offset(t, a, ta) * normal[0]
     }
-    pub fn y_offset(&self, t: f32, a: fn(f32) -> f32, ta: f32) -> f32 {
+    
+    pub fn y_offset(&self, t: f32, a: &dyn Fn(f32) -> f32, ta: f32) -> f32 {
         let normal = self.n(t);
         (self.y)(t) + self.normal_offset(t, a, ta) * normal[1]
     }
 }
+
