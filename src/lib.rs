@@ -2,18 +2,18 @@ use integrate::prelude::legendre_rule;
 
 #[warn(dead_code)]
 pub struct PositionAndVelocity {
-    x: fn(f32, f32) -> f32,
-    y: fn(f32, f32) -> f32,
-    dx: fn(f32, f32) -> f32,
-    dy: fn(f32, f32) -> f32,
+    x: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    y: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    dx: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    dy: Box<dyn Fn(f32, f32) -> f32 + Semd + Sync>,
 }
 
 impl PositionAndVelocity {
     pub fn new(
-        x: fn(f32, f32) -> f32,
-        y: fn(f32, f32) -> f32,
-        dx: fn(f32, f32) -> f32,
-        dy: fn(f32, f32) -> f32,
+        x: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+        y: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+        dx: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+        dy: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
     ) -> Self {
         Self { x, y, dx, dy }
     }
