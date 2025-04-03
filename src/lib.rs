@@ -9,13 +9,19 @@ pub struct PositionAndVelocity {
 }
 
 impl PositionAndVelocity {
-    pub fn new(
-        x: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-        y: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-        dx: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-        dy: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-    ) -> Self {
-        Self { x, y, dx, dy }
+    pub fn new<X, Y, DX, DY>(x: X, y: Y, dx: DX, dy: DY) -> Self
+    where
+        X: Fn(f32, f32) -> f32 + Send + Sync + 'static,
+        Y: Fn(f32, f32) -> f32 + Send + Sync + 'static,
+        DX: Fn(f32, f32) -> f32 + Send + Sync + 'static,
+        DY: Fn(f32, f32) -> f32 + Send + Sync + 'static,
+    {
+        Self {
+            x: Box::new(x),
+            y: Box::new(y),
+            dx: Box::new(dx),
+            dy: Box::new(dy),
+        }
     }
 
     pub fn s(&self, t: f32, theta: f32) -> f32 {
