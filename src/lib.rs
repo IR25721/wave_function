@@ -5,7 +5,7 @@ pub struct PositionAndVelocity {
     x: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
     y: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
     dx: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-    dy: Box<dyn Fn(f32, f32) -> f32 + Semd + Sync>,
+    dy: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
 }
 
 impl PositionAndVelocity {
