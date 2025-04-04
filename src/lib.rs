@@ -1,5 +1,6 @@
 use integrate::prelude::legendre_rule;
 use std::sync::Arc;
+type F = Arc<dyn Fn(f32, f32) -> f32 + Send + Sync + 'static>;
 #[warn(dead_code)]
 pub struct PositionAndVelocity {
     x: Arc<dyn Fn(f32, f32) -> f32 + Send + Sync>,
@@ -9,18 +10,12 @@ pub struct PositionAndVelocity {
 }
 
 impl PositionAndVelocity {
-    pub fn new<X, Y, DX, DY>(x: X, y: Y, dx: DX, dy: DY) -> Self
-    where
-        X: Fn(f32, f32) -> f32 + Send + Sync + 'static,
-        Y: Fn(f32, f32) -> f32 + Send + Sync + 'static,
-        DX: Fn(f32, f32) -> f32 + Send + Sync + 'static,
-        DY: Fn(f32, f32) -> f32 + Send + Sync + 'static,
-    {
+    pub fn new(x: F, y: F, dx: F, dy: F) -> Self {
         Self {
-            x: Arc::new(x),
-            y: Arc::new(y),
-            dx: Arc::new(dx),
-            dy: Arc::new(dy),
+            x: x,
+            y: y,
+            dx: dx,
+            dy: dy,
         }
     }
 
