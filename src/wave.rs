@@ -24,7 +24,7 @@ impl PositionAndVelocity {
         }
     }
 
-    pub fn s(&self, t: f32, theta: f32) -> f32 {
+    fn s(&self, t: f32, theta: f32) -> f32 {
         let func = |t: f32| ((self.dx)(t, theta).powi(2) + (self.dy)(t, theta).powi(2)).sqrt();
         let lower_limit = 0.;
         let upper_limit = t;
