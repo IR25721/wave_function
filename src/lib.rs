@@ -1,11 +1,11 @@
 use integrate::prelude::legendre_rule;
-
+use std::sync::Arc;
 #[warn(dead_code)]
 pub struct PositionAndVelocity {
-    x: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-    y: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-    dx: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
-    dy: Box<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    x: Arc<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    y: Arc<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    dx: Arc<dyn Fn(f32, f32) -> f32 + Send + Sync>,
+    dy: Arc<dyn Fn(f32, f32) -> f32 + Send + Sync>,
 }
 
 impl PositionAndVelocity {
@@ -17,10 +17,10 @@ impl PositionAndVelocity {
         DY: Fn(f32, f32) -> f32 + Send + Sync + 'static,
     {
         Self {
-            x: Box::new(x),
-            y: Box::new(y),
-            dx: Box::new(dx),
-            dy: Box::new(dy),
+            x: Arc::new(x),
+            y: Arc::new(y),
+            dx: Arc::new(dx),
+            dy: Arc::new(dy),
         }
     }
 
